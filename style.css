@@ -17,6 +17,7 @@ body {
 }
 
 h1 {
+  /* background-color: red; */
   margin-bottom: 20px;
   font-size: 50px;
   font-weight: bolder;
@@ -24,6 +25,7 @@ h1 {
 }
 
 .main {
+  /* background-color: rgb(48, 37, 37); */
   display: flex;
   flex-direction: column;
   width: 70%;
@@ -49,6 +51,7 @@ h1 {
   flex-direction: column;
   text-align: center;
   padding: 5px;
+  align-items: center;
 }
 
 .data h2 {
