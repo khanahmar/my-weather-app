@@ -1,9 +1,13 @@
 const serach = document.getElementById("search");
 const main = document.getElementById("main");
 const box = document.getElementById("box");
+const cityName = document.getElementById("city-name");
 const details = document.querySelectorAll(".detail");
 
-window.addEventListener("onload", checkCity);
+if (localStorage.getItem("city")) {
+  let city = localStorage.getItem("city");
+  getApi(city);
+}
 
 async function getApi(city) {
   try {
@@ -16,12 +20,12 @@ async function getApi(city) {
     console.log(response);
     let data = await response.json();
     localStorage.setItem("city", city);
-
+    console.log(data);
     displayData(data);
   } catch (err) {
-    if (err.response.status == 404) {
-      creatErrorCard("No profile with this name");
-    }
+    console.log("no such city");
+    cityName.innerHTML = "No such city";
+    creatErrorCard("No city of this name sorry try again.");
   }
 }
 
@@ -33,6 +37,7 @@ serach.addEventListener("keydown", (e) => {
 });
 
 function displayData(data) {
+  cityName.innerHTML = `${data["name"]} weather`;
   let temp = Math.floor(data["main"]["temp"] - 273.15);
   let weather = data["weather"][0]["main"];
   let img = "weather.png";
@@ -43,7 +48,7 @@ function displayData(data) {
   } else if (weather == "Clear" || weather == "Sunny") {
     img = "sunny1.png";
   } else if (weather == "Rain") {
-    img = "rain.png";
+    img = "rain.PNG";
   } else if (weather == "Snow") {
     img = "cold.png";
   } else if (weather == "Clouds" && temp < 5) {
@@ -84,7 +89,7 @@ function displayData(data) {
 function creatErrorCard(msg) {
   const cardHtml = `
     <div class="card">
-    <h1>${msg}</h1>
+    <h1 class="card-msg">${msg}</h1>
   </div>
     `;
   box.innerHTML = cardHtml;
