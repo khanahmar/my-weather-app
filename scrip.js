@@ -3,7 +3,7 @@ const main = document.getElementById("main");
 const box = document.getElementById("box");
 const details = document.querySelectorAll(".detail");
 
-console.log(details);
+window.addEventListener("onload", checkCity);
 
 async function getApi(city) {
   try {
@@ -15,6 +15,8 @@ async function getApi(city) {
     const response = await fetch(url);
     console.log(response);
     let data = await response.json();
+    localStorage.setItem("city", city);
+
     displayData(data);
   } catch (err) {
     if (err.response.status == 404) {
@@ -86,4 +88,11 @@ function creatErrorCard(msg) {
   </div>
     `;
   box.innerHTML = cardHtml;
+}
+
+function checkCity() {
+  if (localStorage.getItem("city")) {
+    serach.value = localStorage.getItem("city");
+    getApi(serach.value);
+  }
 }
